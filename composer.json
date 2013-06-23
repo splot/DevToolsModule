@@ -1,0 +1,19 @@
+{
+    "name": "splot/devtools-module",
+    "description": "Dev Tools for Splot Framework.",
+    "keywords": ["command", "generator", "cli"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michał Dudek",
+            "email": "michal@michaldudek.pl"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.9",
+        "splot/framework": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Splot\\DevToolsModule": "src/" }
+    }
+}
