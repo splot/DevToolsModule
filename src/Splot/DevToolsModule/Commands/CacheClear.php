@@ -28,6 +28,10 @@ class CacheClear extends AbstractCommand
 
         // also clear the file system cache to make sure all caches are cleared
         $cacheDir = $this->getParameter('cache_dir');
+        if (!is_dir(rtrim($cacheDir, DS))) {
+            mkdir(rtrim($cacheDir, DS), 0777, true);
+        }
+
         $filesystem = $this->get('filesystem');
         $clear = array(
             'twig',

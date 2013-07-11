@@ -163,7 +163,7 @@ class GenerateModule extends AbstractCommand
      */
     protected function validateApplicationName($applicationName) {
         $applicationName = $this->ask('What is the application name (top level namespace part) for which the module should be created?',
-            $applicationName,
+            ucfirst($applicationName),
             array(),
             function($answer) {
                 if (!StringUtils::isClassName($answer)) {
@@ -265,7 +265,8 @@ class GenerateModule extends AbstractCommand
         $this->writeln('With what prefix should all the links (URL\'s) leading to controllers from this module be prefixed?');
         $this->writeln();
         $prefix = $this->ask('What URL prefix?', $prefix);
-        return '/'. trim($prefix, '/') .'/';
+        $prefix = trim($prefix, '/');
+        return (!empty($prefix)) ? '/'. $prefix : '';
     }
 
 }
