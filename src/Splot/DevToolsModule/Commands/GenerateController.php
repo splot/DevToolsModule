@@ -24,6 +24,7 @@ class GenerateController extends AbstractCommand
     public function execute($name) {
         list($moduleName, $controllerName) = $this->validateName($name);
         $module = $this->validateModule($moduleName);
+        $url = $this->validateUrl($controllerName);
 
         $controllerPath = str_replace(NS, DS, $controllerName);
         $fullPath = rtrim($module->getModuleDir(), DS) . DS .'Controllers'. DS . trim(str_replace(NS, DS, $controllerName), DS) .'.php';
@@ -40,7 +41,8 @@ class GenerateController extends AbstractCommand
         $controllerCode = StringUtils::parseVariables($controllerTemplate, array(
             'namespace' => $module->getNamespace(),
             'controllerNamespace' => $controllerNamespace,
-            'controllerClass' => $controllerClass
+            'controllerClass' => $controllerClass,
+            'url' => $url
         ));
 
         $filesystem = $this->get('filesystem');
@@ -118,6 +120,19 @@ class GenerateController extends AbstractCommand
         }
 
         return $application->getModule($name);
+    }
+
+    /**
+     * Asks the user to what URL should the controller respond and creates the default based on the controller name.
+     * 
+     * @param string $name Name of the controller.
+     * @return string
+     */
+    protected function validateUrl($name) {
+        $url = StringUtils::urlFriendly($name);
+        $url = $this->ask('To what URL should this controller respond?', $url);
+        $url = trim($url, '/');
+        return (!empty($url)) ? '/'. $url .'/' : '';
     }
 
 }
