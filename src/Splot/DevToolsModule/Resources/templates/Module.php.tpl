@@ -23,12 +23,24 @@ class {moduleName} extends AbstractModule
     /**
      * Boot the module.
      * 
-     * You should register any event listeners or services or perform any configuration in this function.
+     * You should register any event listeners or services or perform any configuration in this method.
      * 
-     * It it called on application boot.
+     * It is called on application boot. Keep in mind that results of this function (whatever the method does
+     * to the application scope) may be cached, so you shouldn't perform any logic actions here as this method
+     * sometimes might not be called.
      */
     public function boot() {
         
+    }
+
+    /**
+     * Initialize the module.
+     * 
+     * This method is called after application and all its modules have been fully booted (and therefore all services
+     * and event listeners registered). You can perform any actions here that reuse components from other modules.
+     */
+    public function init() {
+
     }
 
 }
