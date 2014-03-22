@@ -15,11 +15,6 @@ use Splot\Framework\Modules\AbstractModule;
 class SplotDevToolsModule extends AbstractModule
 {
 
-    /**
-     * Boots the module.
-     */
-    public function boot() {
-        
-    }
+    
 
 }

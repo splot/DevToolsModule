@@ -14,32 +14,47 @@ class {moduleName} extends AbstractModule
 {
 
     /**
-     * Prefix that will be added to all URL's from this module's controllers.
+     * Prefix that will be added to all URL's from this module.
      * 
-     * @var string
+     * @var string|null
      */
-    protected $_urlPrefix = '{urlPrefix}';
+    protected $urlPrefix = '{urlPrefix}';
 
     /**
-     * Boot the module.
+     * Namespace for all commands that belong to this module
      * 
-     * You should register any event listeners or services or perform any configuration in this method.
-     * 
-     * It is called on application boot. Keep in mind that results of this function (whatever the method does
-     * to the application scope) may be cached, so you shouldn't perform any logic actions here as this method
-     * sometimes might not be called.
+     * @var string|null
      */
-    public function boot() {
-        
+    protected $commandNamespace;
+
+    /**
+     * If the module depends on other modules then return those dependencies from this method.
+     *
+     * It works exactly the same as application's ::loadModules().
+     * 
+     * @return array
+     */
+    public function loadModules() {
+        return array();
     }
 
     /**
-     * Initialize the module.
-     * 
-     * This method is called after application and all its modules have been fully booted (and therefore all services
-     * and event listeners registered). You can perform any actions here that reuse components from other modules.
+     * This method is called on the module during configuration phase so you can register any services,
+     * listeners etc here.
+     *
+     * It should not contain any logic, just wiring things together.
+     *
+     * If the module contains any routes they should be registered here.
      */
-    public function init() {
+    public function configure() {
+        parent::configure();
+    }
+
+    /**
+     * This method is called on the module during the run phase. If you need you can include any logic
+     * here.
+     */
+    public function run() {
 
     }
 
