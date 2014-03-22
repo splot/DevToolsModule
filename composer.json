@@ -11,7 +11,12 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "splot/framework": "dev-master"
+        "splot/framework": "0.5.*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-release/0.5-alpha": "0.5.x-dev"
+        }
     },
     "autoload": {
         "psr-0": { "Splot\\DevToolsModule": "src/" }
