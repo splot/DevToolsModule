@@ -1,8 +1,6 @@
 <?php
 namespace Splot\DevToolsModule\Commands;
 
-use MD\Foundation\Utils\StringUtils;
-
 use Splot\Framework\Console\AbstractCommand;
 
 use Splot\DevToolsModule\Events\ClearCache as ClearCacheEvent;
@@ -19,33 +17,30 @@ class CacheClear extends AbstractCommand
      * Clears all caches.
      */
     public function execute() {
-        $this->write('Clearing cache...');
+        $this->writeln('Clearing caches...');
+
+        // clear container cache
+        $this->get('container.cache')->flush();
+        $this->writeln('    Cleared <comment>container</comment> cache.');
+
+        // clear other registered caches
         $cacheProvider = $this->get('cache_provider');
-
-        foreach($cacheProvider->getCaches() as $cache) {
+        foreach($cacheProvider->getCaches() as $name => $cache) {
             $cache->flush();
-        }
-
-        // also clear the file system cache to make sure all caches are cleared
-        $cacheDir = $this->getParameter('cache_dir');
-        if (!is_dir(rtrim($cacheDir, DS))) {
-            mkdir(rtrim($cacheDir, DS), 0777, true);
-        }
-
-        $filesystem = $this->get('filesystem');
-        $clear = array(
-            'twig',
-            strtolower($this->getParameter('env'))
-        );
-
-        foreach($clear as $dir) {
-            $filesystem->remove($cacheDir . $dir);
+            $this->writeln('    Cleared <comment>'. $name .'</comment> cache.');
         }
 
         // trigger cache clear event
         $this->get('event_manager')->trigger(new ClearCacheEvent($cacheProvider));
 
-        $this->writeln(' <info>done</info>');
+        // after everything make sure that cache dir exists
+        $cacheDir = rtrim($this->getParameter('cache_dir'), DS);
+        if (!is_dir($cacheDir)) {
+            mkdir($cacheDir, 0777, true);
+            $this->writeln('<comment>Cache directory "'. $cacheDir .'" did not exist, so created it.');
+        }
+
+        $this->writeln('<info>Finished clearing all caches.</info>');
     }
 
 }
