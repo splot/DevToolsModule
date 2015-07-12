@@ -1,0 +1,15 @@
+parameters:
+    event.cache_clear: Splot\DevToolsModule\Events\ClearCache
+
+services:
+
+    opcache_clear:
+        class: Splot\DevToolsModule\Cache\ClearOpcache
+        arguments:
+            - @resource_finder
+            - @router
+            - @filesystem
+            - %web_dir%
+            - @logger
+        notify:
+            - ["@event_manager", "subscribeService", ["%event.cache_clear%", "@=", "onCacheClear"]]
