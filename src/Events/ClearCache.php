@@ -11,6 +11,8 @@
  */
 namespace Splot\DevToolsModule\Events;
 
+use Psr\Log\LoggerInterface;
+
 use Splot\EventManager\AbstractEvent;
 
 use Splot\Cache\CacheProvider;
@@ -26,12 +28,21 @@ class ClearCache extends AbstractEvent
     private $cacheProvider;
 
     /**
+     * Logger.
+     *
+     * @var LoggerInterface|null
+     */
+    private $logger = null;
+
+    /**
      * Constructor.
      * 
      * @param CacheProvider $cacheProvider Cache provider.
+     * @param LoggerInterface $logger [optional] A specific logger that may be used for listeners to log reactions.
      */
-    public function __construct(CacheProvider $cacheProvider) {
+    public function __construct(CacheProvider $cacheProvider, LoggerInterface $logger = null) {
         $this->cacheProvider = $cacheProvider;
+        $this->logger = $logger;
     }
 
     /**
@@ -43,4 +54,12 @@ class ClearCache extends AbstractEvent
         return $this->cacheProvider;
     }
 
+    /**
+     * Gets a logger that may be used for listeners to log reactions.
+     *
+     * @return LoggerInterface|null
+     */
+    public function getLogger() {
+        return $this->logger;
+    }
 }

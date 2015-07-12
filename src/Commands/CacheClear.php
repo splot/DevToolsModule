@@ -31,7 +31,7 @@ class CacheClear extends AbstractCommand
         }
 
         // trigger cache clear event
-        $this->get('event_manager')->trigger(new ClearCacheEvent($cacheProvider));
+        $this->get('event_manager')->trigger(new ClearCacheEvent($cacheProvider, $this->getLogger()));
 
         // after everything make sure that cache dir exists
         $cacheDir = rtrim($this->getParameter('cache_dir'), DS);
